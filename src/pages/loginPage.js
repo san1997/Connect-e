@@ -2,68 +2,75 @@ import { useState, useEffect } from 'react';
 import './loginPage.css';
 import { useNavigate } from "react-router-dom";
 import {BASE_URL} from '../constants';
+import useAuthCheck from './loginCheck';
 
 export function LoginPage() {
-    const loggedIn = false;
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    useAuthCheck();
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (loggedIn) {
-            // to login page
-            navigate("/home", {replace: true});
+
+    const submitHandler = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        setError('');
+
+        try {
+            const response = await fetch(`${BASE_URL}/login`, {
+                method: "POST",
+                body: JSON.stringify({ username, password }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+            navigate("/home", { replace: true });
+        } catch (err) {
+            console.error('Login error:', err);
+            setError('Login failed. Please try again.');
+
+        } finally {
+            setLoading(false);
         }
-    }, [loggedIn]);
-
-    const submitHanlder = () => {
-        console.log('tt', username, password, BASE_URL);
-
-        fetch(`${BASE_URL}/login`,
-        {
-            method: "POST",
-            body: JSON.stringify({
-                username, password
-            }),
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-              },
-        })
-        .then(function(res){ console.log('rrr', res); return res.json()})
-        .then(res => {
-            console.log('res', res);
-            document.cookie = res.accesstoken
-        })
-        .catch(err => {
-            console.log('err', err);
-        })
-
-        // setTimeout(() => {
-        //     navigate('/home');
-        // }, 3000);
-    }
+    };
 
     return (
-      <div className='container'>
-        <input
-            className='inputbox'
-            type={'email'}
-            placeholder='email'
-            onChange={e => setUsername(e.target.value)}
-        ></input>
-        <input
-            className='inputbox'
-            type={'password'}
-            placeholder='password'
-            onChange={e => setPassword(e.target.value)}
-        ></input>
-        <button
-            className='inputbox submitButton'
-            onClick={submitHanlder}
-        >
-            Submit
-        </button>
+        <div className='container'>
+            <form onSubmit={submitHandler}>
+                <input
+                    className='inputbox'
+                    type='email'
+                    placeholder='email'
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                    required
+                />
+                <input
+                    className='inputbox'
+                    type='password'
+                    placeholder='password'
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    required
+                />
+                <button
+                    className='inputbox submitButton'
+                    type='submit'
+                    disabled={loading}
+                >
+                    {loading ? 'Loading...' : 'Submit'}
+                </button>
+                {error && <div className="error">{error}</div>}
+            </form>
         </div>
     );
-  }
+}

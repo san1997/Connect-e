@@ -18,8 +18,9 @@
 .submitButton {
     font-weight: 700;
     font-size: 18px;
+    cursor: pointer; /* Moved outside :hover for basic pointer functionality */
+}
 
-    &:hover {
-        cursor: pointer;
-    }
+.submitButton:hover {
+    cursor: pointer;
 }

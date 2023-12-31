@@ -1,33 +1,176 @@
 .instagram {
-    padding: 1em;
+    padding: 2em; /* Increased padding for a more spacious layout */
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem; /* Increased gap for better visual separation */
     max-width: 500px;
     margin: auto;
+    background-color: #ffeff0; /* Soft pink background similar to the image */
+    border-radius: 20px; /* Rounded corners for the entire container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    font-family: 'Arial', sans-serif; /* Clean and simple font */
+    transition: max-width 0.3s; /* Smooth transition for resizing */
 }
 
 .profile {
-    padding: 1em;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    text-align: left;
+    align-items: center;
+    gap: 20px;
+    color: #333; /* Dark text for better readability */
 }
 
 .title {
-    font-size: 1.5rem;
+    font-size: 1.8rem; /* Larger font size for the title */
+    font-weight: bold;
+    color: #e91e63; /* Color picked from the rose for consistency */
+    margin-bottom: 10px;
 }
+
 .body {
-    margin-top: 10px;
     display: flex;
+    gap: 10px;
     align-items: center;
 }
 
+.scrollable-widgets {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.scrollable-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    background-color: #ffffff; /* Light background for list items */
+    padding: 10px;
+    border-radius: 10px; /* More pronounced rounded corners */
+    color: #333; /* Dark text for better readability */
+    font-size: 1.2rem; /* Slightly larger font size */
+}
+
+.widget {
+    border: 1px solid #f2c4c9; /* Softer border color */
+    border-radius: 16px; /* More pronounced rounded corners */
+    padding: 16px;
+    background-color: #fff0f1; /* Soft pink background for widgets */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    font-size: 1.2rem; /* Slightly larger font size */
+}
+
+.inputbox {
+    padding: 12px 20px; /* Slightly increased padding for a fuller appearance */
+    min-width: 200px; /* Minimum width to maintain a decent size */
+    border: 2px solid #f2c4c9; /* Softer border color to match the widget style */
+    border-radius: 30px; /* More pronounced rounded corners to match button style */
+    background-color: #fff0f1; /* Soft pink background to match widget style */
+    font-size: 1.2rem; /* Consistent font size with the rest of the design */
+    color: #333; /* Dark text color for readability */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle inset shadow for depth */
+    outline: none; /* Removes the default focus outline */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for interactions */
+}
+
+.inputbox:focus {
+    border-color: #e91e63; /* Highlight color on focus to match the rose theme */
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.3); /* Soft glow effect on focus */
+}
+
 .sendRoseButton {
-    margin-left: 10px;
-    height: 40px;
-    width: 40px;
-    border: 3px solid black;
-    border-radius: 50%;
+    background-color: #fe8da3; /* Matched with the rose color from the image */
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px; /* Increased padding for a better touch target */
+    border-radius: 30px; /* More rounded edges */
+    border: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); /* More prominent shadow */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for interactions */
+}
+
+.sendRoseButton:hover {
+    background-color: #e91e63; /* Darker shade on hover for interaction feedback */
+    transform: scale(1.05); /* Slight increase in size on hover for a dynamic effect */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    /* Adjust styles for mobile screens */
+    .instagram {
+        max-width: 100%; /* Full width on small screens */
+    }
+
+    .scrollable-widgets {
+        flex-direction: column;
+    }
+
+    .widget {
+        width: 100%; /* Make widgets full width on small screens */
+        margin-bottom: 1rem; /* Add space between widgets */
+    }
+}
+
+@media (min-width: 769px) {
+    /* Adjust styles for tablet screens and larger */
+    .scrollable-widgets {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .widget {
+        width: calc(50% - 1rem); /* Adjust width to fit two widgets per row */
+    }
+}
+
+
+/* ... other styles ... */
+
+.scrollable-widgets {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center; /* Center the widgets */
+}
+
+.scrollable-container {
+    max-height: 200px; /* Adjusted maximum height for the scrollable area */
+    overflow-y: auto;
+    width: 100%; /* Adapts to the width of the parent container */
+    max-width: 280px; /* Maximum width to avoid taking up the full screen */
+    margin: 0 auto; /* Centers the widget if it's smaller than the parent */
+}
+
+/* ... other styles ... */
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    /* ... mobile screen styles ... */
+}
+
+@media (min-width: 769px) {
+    /* ... tablet and larger screen styles ... */
+    .scrollable-widgets {
+        flex-direction: row;
+        justify-content: center; /* Center the widgets horizontally */
+    }
+
+    .widget,
+    .scrollable-container {
+        /* Set a fixed width for larger screens */
+        width: calc(50% - 1rem); /* Adjust width to fit two widgets per row */
+    }
 }
