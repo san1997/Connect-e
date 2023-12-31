@@ -1,14 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InstagramLogin } from '@amraneze/react-instagram-login';
 import './homePage.css';
 import FontAwesome from "react-fontawesome";
+import {BASE_URL} from '../constants';
 
 export function HomePage() {
 
+
+
     const loggedIn = true;
-    const instaConnected = false;
+    const instaConnected = true;
+    const [insta, setInsta] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetch(`${BASE_URL}/getuser`,
+        {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+              },
+        })
+        .then(function(res){ console.log('rrr', res); })
+        .then(res => {
+            console.log('res', res)
+        })
+        .catch(err => {
+            console.log('err', err);
+        })
+    }, []);
 
     useEffect(() => {
         if (!loggedIn) {
@@ -48,6 +70,7 @@ function ConnectInstagram() {
 }
 
 function ProfilePage() {
+    
     return (
         <div className="profile">
             <SendRoseWidget/>            
