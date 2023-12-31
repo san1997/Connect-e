@@ -1,0 +1,33 @@
+.instagram {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 500px;
+    margin: auto;
+}
+
+.profile {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+}
+
+.title {
+    font-size: 1.5rem;
+}
+.body {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.sendRoseButton {
+    margin-left: 10px;
+    height: 40px;
+    width: 40px;
+    border: 3px solid black;
+    border-radius: 50%;
+}
