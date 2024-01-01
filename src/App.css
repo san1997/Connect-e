@@ -33,8 +33,6 @@ body, .App {
 
 .main-container {
   position: relative;
-  top: 6rem;
-  width: 100%;
   padding: 1em;
 }
 

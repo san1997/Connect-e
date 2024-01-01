@@ -157,7 +157,7 @@ function SendRoseWidget({render ,setRender}) {
                     throw new Error(errorData.message); // Extract
                 }
                 setRoseAdded(true)
-                setRender(true)
+                setRender(!render)
         } catch (err) {
             console.error('error sending rose:', err);
             setError(err.message);
@@ -192,16 +192,50 @@ function SendRoseWidget({render ,setRender}) {
 
 function ProfilePage({ igUsername }) {
     const [render, setRender] = useState()
+    const [error, setError] = useState('');
+    const [userInfo, setUserInfo] = useState({})
+    const [loading, setLoading] = useState(false);
+
+    const getUserInfo = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/getuser`, {
+                method: "GET",
+                credentials: 'include' // Include credentials for cookies
+            });
+
+            if (!response.ok) {
+                throw new Error('Error getting user info');
+            }
+            const data = await response.json();
+            setUserInfo(data)
+        } catch (err) {
+            console.error('Err getting user info:', err);
+            setError('Err getting user info');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        setLoading(true)
+        getUserInfo()
+    }, []);
+
+    useEffect(() => {
+        setLoading(true)
+        getUserInfo()
+    }, [render]);
+
     return (
         <div className="profile">
             <div className="component-spacing">
             {igUsername && <InstagramProfile igUsername={igUsername} />}
             </div>
             <div className="component-spacing">
-                <SendRoseWidget render = {render} setRender = {setRender}/>
+                <SendRoseWidget render = {render} setRender = {setRender} />
             </div>
             <div className="component-spacing">
-                <StatsWidget render = {render} setRender = {setRender}
+                <StatsWidget userInfo = {userInfo}
                     rosesSentCount={5}
                     rosesReceivedCount={4}
                     matchesCount={2}
@@ -209,10 +243,11 @@ function ProfilePage({ igUsername }) {
             </div>
             <div className="component-spacing">
                 <div className="scrollable-widgets">
-                    <Matches render = {render} setRender = {setRender}/>
-                    <SentRoses render = {render} setRender = {setRender}/>
+                    <Matches userInfo = {userInfo}/>
+                    <SentRoses userInfo = {userInfo}/>
                 </div>
             </div>
+            {error && <div className="error-message">Error: {error}</div>}
         </div>
     );
 }
@@ -238,104 +273,52 @@ function InstagramProfile({ igUsername }) {
 }
 
 
-
-
-function SentRoses({render, setRender}) {
-    const [error, setError] = useState('');
-    const [matches, setMatches] = useState([])
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        setLoading(true)
-        if(render) {
-            const getMatches = async () => {
-                try {
-                    const response = await fetch(`${BASE_URL}/getsentroses`, {
-                        credentials: 'include'
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Error getting matches');
-                    }
-                    const data = await response.json();
-                    setMatches(data.ig_usernames)
-                } catch (err) {
-                    console.error('Err getting matches:', err);
-                    setError('Err getting matches');
-                } finally {
-                    setLoading(false);
-                }
-            };
-            getMatches();
-        }
-    }, [render]);
-
+function SentRoses({userInfo, render, setRender}) {
+    const sentRoses = userInfo.sentRoses
     return (
         <div>
             <div className="widget scrollable-container">
-                <div className="title">Matches</div>
-                {loading ? 'Loading...' :
+                <div className="title">Sent Roses</div>
                     <ul>
-                        {matches.map(match => <li key={match}>{match}</li>)}
+                        {sentRoses?.map(match => (
+                            <li key={match}>
+                                <a href={`https://instagram.com/${match}`} target="_blank" >{match}</a>
+                            </li>
+                        ))}
                     </ul>
-                }
+
             </div>
-            {error && <div className="error-message">Error: {error}</div>}
         </div>
     );
 }
 
-function Matches({render ,setRender}) {
-    const [error, setError] = useState('');
-    const [matches, setMatches] = useState([])
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        setLoading(true)
-        if(render) {
-            const getMatches = async () => {
-                try {
-                    const response = await fetch(`${BASE_URL}/getmatches`, {
-                        credentials: 'include'
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Error getting matches');
-                    }
-                    const data = await response.json();
-                    setMatches(data.matches)
-                } catch (err) {
-                    console.error('Err getting matches:', err);
-                    setError('Err getting matches');
-                } finally {
-                    setLoading(false);
-                }
-            };
-            getMatches();
-        }
-    }, [render]);
-
+function Matches({userInfo}) {
+    const matches = userInfo.matches
     return (
         <div>
             <div className="widget scrollable-container">
                 <div className="title">Matches</div>
-                {loading ? 'Loading...' :
                     <ul>
-                        {matches.map(match => <li key={match}>{match}</li>)}
+                        {matches?.map(match => (
+                            <li key={match}>
+                                <a href={`https://instagram.com/${match}`} target="_blank" >{match}</a>
+                            </li>
+                        ))}
+
                     </ul>
-                }
             </div>
-            {error && <div className="error-message">Error: {error}</div>}
         </div>
     );
 }
 
-function StatsWidget({ rosesSentCount, rosesReceivedCount, matchesCount }) {
+function StatsWidget({ userInfo }) {
     return (
         <div className="stats-widget">
             <div className="stat">
-                Received <span className="icon"> {rosesReceivedCount}🌹</span>
+                Received <span className="icon"> {userInfo.roses_received}🌹</span>
             </div>
             <div className="stat">
-                Matches <span className="icon">{matchesCount}❤️</span>
+                Matches <span className="icon">{userInfo.matches?.length}❤️</span>
             </div>
         </div>
     );
