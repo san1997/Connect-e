@@ -1,176 +1,211 @@
-.instagram {
-    padding: 2em; /* Increased padding for a more spacious layout */
-    display: flex;
-    flex-direction: column;
-    gap: 2rem; /* Increased gap for better visual separation */
-    max-width: 500px;
-    margin: auto;
-    background-color: #ffeff0; /* Soft pink background similar to the image */
-    border-radius: 20px; /* Rounded corners for the entire container */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
-    font-family: 'Arial', sans-serif; /* Clean and simple font */
-    transition: max-width 0.3s; /* Smooth transition for resizing */
+/* Base styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff0f4; /* Soft pink background */
+    color: #333; /* Dark text for readability */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    color: #333; /* Dark text for better readability */
+/* Styles for Instagram and profile sections */
+.instagram, .profile {
+    max-width: 550px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Style for titles */
 .title {
-    font-size: 1.8rem; /* Larger font size for the title */
-    font-weight: bold;
-    color: #e91e63; /* Color picked from the rose for consistency */
+    font-size: 1.5rem;
+    color: #e91e63; /* Soft rose color */
+    margin-bottom: 10px;
+    text-align: center;
+    position: sticky; /* Make title sticky */
+    top: 0;
+    background-color: inherit;
+    padding: 10px 0; /* Padding for sticky title */
+}
+
+/* Styles for input boxes and submit buttons */
+.inputbox, .submitButton {
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #e91e63; /* Soft rose border */
     margin-bottom: 10px;
 }
 
-.body {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+/* Specific style for input box */
+.inputbox {
+    width: calc(100% - 24px); /* Adjust width for padding and border */
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    background: repeating-linear-gradient(
+            45deg,
+            #ffe0f0,
+            #ffe0f0 10px,
+            #f7e4e9 10px,
+            #f7e4e9 20px
+    );
+    color: #333;
+    font-size: 0.6rem;
+    font-style: italic;
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #333;
+    opacity: 1; /* Firefox */
+    font-style: italic;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #333;
+    font-style: italic;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #333;
+    font-style: italic;
+}
 }
 
-.scrollable-widgets {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.component-spacing {
+    margin-bottom: 20px; /* Adjust this value as needed for desired spacing */
+}
+
+
+/* Specific style for submit button */
+.submitButton {
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    background-color: #e91e63;
+    color: white;
+    cursor: pointer;
     width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 0.9rem;
 }
 
+/* Hover effect for submit button */
+.submitButton:hover {
+    background-color: #c2185b; /* Darker shade on hover */
+}
+
+/* Styles for scrollable containers */
 .scrollable-container {
     max-height: 300px;
     overflow-y: auto;
+    font-size: 1rem;
 }
 
-ul {
+/* Styles for widgets */
+.widget {
+    background-color: #fff0f4; /* Light pink background for widgets */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 30px; /* Increased margin for spacing */
+}
+
+/* Styles for unordered lists in widgets */
+.widget ul {
     list-style: none;
     padding: 0;
 }
 
-li {
-    margin-bottom: 10px;
-    background-color: #ffffff; /* Light background for list items */
-    padding: 10px;
-    border-radius: 10px; /* More pronounced rounded corners */
-    color: #333; /* Dark text for better readability */
-    font-size: 1.2rem; /* Slightly larger font size */
+/* Styles for list items in widgets */
+.widget li {
+    background-color: #ffffff;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.widget {
-    border: 1px solid #f2c4c9; /* Softer border color */
-    border-radius: 16px; /* More pronounced rounded corners */
-    padding: 16px;
-    background-color: #fff0f1; /* Soft pink background for widgets */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
-    font-size: 1.2rem; /* Slightly larger font size */
+/* Styles for Instagram profile paragraphs */
+.instagram-profile p {
+    text-align: center;
+    font-style: italic;
+    max-width: 50%;
+    font-size: 0.7rem
 }
 
-.inputbox {
-    padding: 12px 20px; /* Slightly increased padding for a fuller appearance */
-    min-width: 200px; /* Minimum width to maintain a decent size */
-    border: 2px solid #f2c4c9; /* Softer border color to match the widget style */
-    border-radius: 30px; /* More pronounced rounded corners to match button style */
-    background-color: #fff0f1; /* Soft pink background to match widget style */
-    font-size: 1.2rem; /* Consistent font size with the rest of the design */
-    color: #333; /* Dark text color for readability */
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle inset shadow for depth */
-    outline: none; /* Removes the default focus outline */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for interactions */
+.ig-username {
+    color: #e91e63; /* Rose color for Instagram username */
 }
 
-.inputbox:focus {
-    border-color: #e91e63; /* Highlight color on focus to match the rose theme */
-    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.3); /* Soft glow effect on focus */
+.rest-text {
+    font-weight: lighter;
+    font-size: 0.8rem;
+    color: grey; /* Grey color for the rest of the text */
 }
 
-.sendRoseButton {
-    background-color: #fe8da3; /* Matched with the rose color from the image */
-    color: white;
+
+/* Styles for the stats widget */
+.stats-widget {
+    background-color: #fff0f4; /* Light pink background */
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    font-size: 1rem;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 16px; /* Increased padding for a better touch target */
-    border-radius: 30px; /* More rounded edges */
-    border: none;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); /* More prominent shadow */
-    cursor: pointer; /* Changes the cursor to a pointer on hover */
-    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for interactions */
 }
 
-.sendRoseButton:hover {
-    background-color: #e91e63; /* Darker shade on hover for interaction feedback */
-    transform: scale(1.05); /* Slight increase in size on hover for a dynamic effect */
+.stat {
+    margin: 10px 0;
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    font-size: 1rem;
+    color: #050505;
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-    /* Adjust styles for mobile screens */
-    .instagram {
-        max-width: 100%; /* Full width on small screens */
+.icon {
+    font-size: 1.5rem;
+    margin-right: 5px;
+    color: #e91e63;
+}
+
+.count {
+    font-weight: bold;
+    margin-right: 5px;
+    color: grey;
+}
+
+/* Enhanced Media Queries for Mobile Responsiveness */
+@media screen and (max-width: 600px) {
+    .instagram, .profile {
+        margin: 10px auto;
+        padding: 10px;
+        max-width: 80%;
+        font-size: 0.7rem; /* Adjusted font size for better readability */
     }
 
-    .scrollable-widgets {
-        flex-direction: column;
+    .title {
+        font-size: 1.0rem;
+    }
+
+    .inputbox, .submitButton {
+        font-size: 0.5rem; /* Adjusted font size for better readability */
+        padding: 8px; /* Slightly reduced padding */
     }
 
     .widget {
-        width: 100%; /* Make widgets full width on small screens */
-        margin-bottom: 1rem; /* Add space between widgets */
-    }
-}
-
-@media (min-width: 769px) {
-    /* Adjust styles for tablet screens and larger */
-    .scrollable-widgets {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: flex-start;
+        font-size: 0.7rem; /* Adjusted font size for better readability */
+        padding: 10px;
+        margin-bottom: 20px; /* Adjusted for spacing in mobile view */
     }
 
-    .widget {
-        width: calc(50% - 1rem); /* Adjust width to fit two widgets per row */
-    }
-}
-
-
-/* ... other styles ... */
-
-.scrollable-widgets {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center; /* Center the widgets */
-}
-
-.scrollable-container {
-    max-height: 200px; /* Adjusted maximum height for the scrollable area */
-    overflow-y: auto;
-    width: 100%; /* Adapts to the width of the parent container */
-    max-width: 280px; /* Maximum width to avoid taking up the full screen */
-    margin: 0 auto; /* Centers the widget if it's smaller than the parent */
-}
-
-/* ... other styles ... */
-
-/* Responsive styles */
-@media (max-width: 768px) {
-    /* ... mobile screen styles ... */
-}
-
-@media (min-width: 769px) {
-    /* ... tablet and larger screen styles ... */
-    .scrollable-widgets {
-        flex-direction: row;
-        justify-content: center; /* Center the widgets horizontally */
-    }
-
-    .widget,
     .scrollable-container {
-        /* Set a fixed width for larger screens */
-        width: calc(50% - 1rem); /* Adjust width to fit two widgets per row */
+        font-size: 0.7rem; /* Adjusted font size for better readability */
+        max-height: 250px; /* Adjusted for better visibility on mobile */
+    }
+    .component-spacing {
+        margin-bottom: 15px; /* Slightly smaller margin for mobile view */
+    }
+    .rest-text{
+        font-size: 0.5rem;
     }
 }
+
+/* Importing pixelated font */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');

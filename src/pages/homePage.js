@@ -129,42 +129,64 @@ function ConnectInstagram({ setInstaConnected }) {
     );
 }
 
-function SendRoseWidget () {
-    return ( <div >
-        <div className="title">Send Rose</div>
-        <div className="body">
-            <input
-                className='inputbox'
-                type={'text'}
-                placeholder='Instagram Username'
-            ></input>
-            <button className='inputBox submitButton sendRoseButton'>
-                Send 🌹
-            </button>
+function SendRoseWidget() {
+    // Assuming there's a state or props to handle the username
+    return (
+        <div className="send-rose-widget">
+            <input type="text" className="inputbox" placeholder="Enter a handle, send a rose 🌹" />
+            <button className="submitButton">Send Rose</button>
         </div>
-    </div>);
+    );
 }
 
 function ProfilePage({ igUsername }) {
     return (
         <div className="profile">
+            <div className="component-spacing">
             {igUsername && <InstagramProfile igUsername={igUsername} />}
-            <SendRoseWidget/>
-            <div className="scrollable-widgets">
-                <SentRoses/>
-                <Matches/>
+            </div>
+            <div className="component-spacing">
+                <SendRoseWidget/>
+            </div>
+            <div className="component-spacing">
+                <StatsWidget
+                    rosesSentCount={5}
+                    rosesReceivedCount={4}
+                    matchesCount={2}
+                />
+            </div>
+            <div className="component-spacing">
+                <div className="scrollable-widgets">
+                    <Matches/>
+                    <SentRoses/>
+                </div>
             </div>
         </div>
     );
 }
 
 function InstagramProfile({ igUsername }) {
+    if (!igUsername) {
+        return <p className="no-connection">🔗 Connect to Instagram & start your rose journey!</p>;
+    }
+
     return (
         <div className="instagram-profile">
-            <p>Connected to Instagram as: <strong>{igUsername}</strong></p>
+            {/*<div>*/}
+            {/*    <span className="instagram-icon">📸</span>*/}
+            {/*</div>*/}
+            <div>
+                <strong className="ig-username">@{igUsername}</strong>
+            </div>
+            <div>
+                <span className="rest-text">Spread love, send roses! 🌹</span>
+            </div>
         </div>
     );
 }
+
+
+
 
 function SentRoses() {
     const rosesSent = ['user_a', 'user_b', 'user_c', 'user_a', 'user_b', 'user_c'];
@@ -189,5 +211,20 @@ function Matches() {
         </div>
     );
 }
+
+function StatsWidget({ rosesSentCount, rosesReceivedCount, matchesCount }) {
+    return (
+        <div className="stats-widget">
+            <div className="stat">
+                Received <span className="icon"> {rosesReceivedCount}🌹</span>
+            </div>
+            <div className="stat">
+                Matches <span className="icon">{matchesCount}❤️</span>
+            </div>
+        </div>
+    );
+}
+
+
 
 export default ProfilePage;

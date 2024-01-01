@@ -43,34 +43,66 @@ export function LoginPage() {
         }
     };
 
+    return (<div>
+            <div>
+                <WelcomeWidget/>
+            </div>
+            <div className='container'>
+                Login/Signup
+                <form onSubmit={submitHandler}>
+                    <input
+                        className='inputbox'
+                        type='email'
+                        placeholder='email'
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        required
+                    />
+                    <input
+                        className='inputbox'
+                        type='password'
+                        placeholder='password'
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                    />
+                    <button
+                        className='submitButton'
+                        type='submit'
+                        disabled={loading}
+                    >
+                        {loading ? 'Loading...' : 'Submit'}
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                </form>
+            </div>
+
+    </div>
+
+    );
+}
+
+function WelcomeWidget() {
     return (
-        <div className='container'>
-            <form onSubmit={submitHandler}>
-                <input
-                    className='inputbox'
-                    type='email'
-                    placeholder='email'
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                    required
-                />
-                <input
-                    className='inputbox'
-                    type='password'
-                    placeholder='password'
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    required
-                />
-                <button
-                    className='inputbox submitButton'
-                    type='submit'
-                    disabled={loading}
-                >
-                    {loading ? 'Loading...' : 'Submit'}
-                </button>
-                {error && <div className="error">{error}</div>}
-            </form>
+        <div className="welcome-widget">
+            <p>
+                    Roses are red,
+                    <br />
+                    Violets are blue,
+                    <br />
+                    Send a secret rose to your crush,
+                    <br />
+                    And they might send one to you too.
+                    <br />
+                    Only if it's a match,
+                    <br />
+                    Will we reveal the catch.
+                    <br />
+                    But if it's one-way,
+                    <br />
+                    Your secret we'll obey.
+            </p>
         </div>
     );
 }
+

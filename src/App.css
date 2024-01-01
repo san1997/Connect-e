@@ -1,47 +1,56 @@
-.App {
-  text-align: center;
+body, .App {
+  font-family: 'Press Start 2P', cursive; /* Pixelated font */
+  background-color: #ffe6f0; /* Soft pink background */
+  color: #330033; /* Deep purple for contrast */
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  height: 20vmin;
+  image-rendering: pixelated; /* Ensure the logo is pixelated */
 }
 
 .App-header {
-  background-color: pink;
+  background-color: #ff99cc; /* Soft romantic pink */
   min-height: 100vh;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 1.5rem;
+  color: #330033; /* Deep purple for text */
 }
 
 .top-header {
   position: fixed;
-  top: 0em;
+  top: 0;
   padding: 1em 0;
-  font-size: 2rem;
+  font-size: 1.5rem;
   width: 100%;
-  margin: auto;
+  background-color: #ff99cc;
+  color: #330033;
+  border-bottom: 4px solid #ff66a3; /* Pixel-like border */
 }
 
 .main-container {
-  position: fixed;
+  position: relative;
   top: 6rem;
   width: 100%;
+  padding: 1em;
 }
 
 .App-link {
-  color: #61dafb;
+  color: #ff66a3;
+  text-decoration: none;
+  border-bottom: 2px dotted #ff99cc; /* Dotted underline for links */
 }
 
+
+.button:hover, .inputBox.submitButton:hover, .sendRoseButton:hover {
+  background-color: #ff99cc;
+  border-color: #ff66a3;
+}
+
+/* Animation for App logo */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -50,3 +59,36 @@
     transform: rotate(360deg);
   }
 }
+
+/* ... existing styles ... */
+
+/* Media Query for Mobile Devices */
+@media screen and (max-width: 768px) {
+  .App-header, .top-header {
+    text-align: center;
+    font-size: 1rem; /* Smaller font size for headers */
+  }
+
+  .App-logo {
+    height: 15vmin;
+  }
+
+  .button, .inputBox.submitButton, .sendRoseButton {
+    padding: 8px 15px;
+    font-size: 0.75rem; /* Smaller font size for buttons */
+  }
+
+  .main-container {
+    top: 3.5rem; /* Reduced top position for smaller header */
+    padding: 0.5em; /* Smaller padding for main container */
+  }
+
+  body, .App {
+    font-size: 0.8rem; /* Smaller base font size for better readability */
+  }
+}
+
+/*!* ... existing styles ... *!*/
+
+/* Import the 'Press Start 2P' font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
