@@ -2,6 +2,7 @@
   "name": "connect-e-dil",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@amraneze/react-instagram-login": "^4.0.0",
     "@testing-library/jest-dom": "^5.14.1",

@@ -27,7 +27,7 @@ export function LoginPage() {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                credentials: 'include'
+                // credentials: 'include'
             });
 
             if (!response.ok) {

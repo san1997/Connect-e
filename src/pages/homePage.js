@@ -10,12 +10,13 @@ export function HomePage() {
     useAuthCheck();
 
     const [instaConnected, setInstaConnected] = useState(false);
+    const [igUsername, setIgUsername] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
         fetchUserData();
-    }, []);
+    }, [instaConnected]);
 
     const fetchUserData = async () => {
         try {
@@ -32,8 +33,9 @@ export function HomePage() {
 
             console.log('User data:', data);
             const igUsername = data.ig_username
-            if (igUsername.length > 0) {
+            if (igUsername) {
                 setInstaConnected(true);
+                setIgUsername(igUsername); // Save the Instagram username in state
             }
         } catch (err) {
             console.error('Error:', err);
@@ -53,7 +55,7 @@ export function HomePage() {
 
     return (
         <div>
-            {!instaConnected ? <ConnectInstagram setInstaConnected={setInstaConnected} /> : <ProfilePage />}
+            {!instaConnected ? <ConnectInstagram setInstaConnected={setInstaConnected} /> : <ProfilePage igUsername={igUsername} />}
         </div>
     );
 }
@@ -94,7 +96,7 @@ function ConnectInstagram({ setInstaConnected }) {
 
     const handleIgSuccessResp = (response) => {
         console.log("Ig resp authcode:", response);
-        setAuthCode("AQA7RZuWblKxE5Y-ha299-E_3dVTKXlz6zWz1NgzOKYX2pZ0-WKqLXU4PlBMUMYjg5gwX9ViAUXjmmc8SvZGRPpPLrtkDrCrWmFkXwGzphlaXxKozBWYOMrRN2zadMj3eQDNaYozFJn9h2Z-iYoQTC36kxo5rvlsm9N96vITGH7YUzoAq71PaLrh1PfCMADp4Gf96zxYXrf6k7kVqqCB5_QYczDzBSo0SJPdfwL4RDGyGw");
+        setAuthCode(response);
     };
 
     const handleIgFailureResp = (response) => {
@@ -116,7 +118,7 @@ function ConnectInstagram({ setInstaConnected }) {
                 onFailure={handleIgFailureResp}
                 redirectUri={REDIRECT_URL}
                 scope="user_profile"
-                useRedirect={true}
+                //useRedirect={true}
             />
             {/*<button*/}
             {/*    className='inputbox submitButton'*/}
@@ -127,20 +129,6 @@ function ConnectInstagram({ setInstaConnected }) {
     );
 }
 
-
-// function ProfilePage() {
-//
-//     return (
-//         <div className="profile">
-//             <SendRoseWidget/>
-//
-//             <SentRoses/>
-//
-//             <Matches/>
-//         </div>
-//     );
-// }
-//
 function SendRoseWidget () {
     return ( <div >
         <div className="title">Send Rose</div>
@@ -156,42 +144,11 @@ function SendRoseWidget () {
         </div>
     </div>);
 }
-//
-// function SentRoses () {
-//     const matches = ['a', 'b', 'c'];
-//     return (
-//         <div >
-//             <div className="title">Roses sent</div>
-//             {
-//                 matches.map(match =>
-//                     <ul>
-//                         {match}
-//                     </ul>
-//                 )
-//             }
-//         </div>
-//     );
-// }
-//
-// function Matches () {
-//     const matches = ['a', 'b', 'c'];
-//     return (
-//         <div >
-//             <div className="title">Matches</div>
-//             {
-//                 matches.map(match =>
-//                     <ul>
-//                         {match}
-//                     </ul>
-//                 )
-//             }
-//         </div>
-//     );
-// }
 
-function ProfilePage() {
+function ProfilePage({ igUsername }) {
     return (
         <div className="profile">
+            {igUsername && <InstagramProfile igUsername={igUsername} />}
             <SendRoseWidget/>
             <div className="scrollable-widgets">
                 <SentRoses/>
@@ -201,24 +158,13 @@ function ProfilePage() {
     );
 }
 
-// function SendRoseWidget() {
-//     return (
-//         <div className="widget">
-//             <div className="title">Send Rose</div>
-//             <div className="body">
-//                 <input
-//                     className='inputbox'
-//                     type='text'
-//                     placeholder='Enter Instagram username'
-//                 />
-//                 <button className='submitButton sendRoseButton'>
-//                     🌹 Send Rose
-//                 </button>
-//             </div>
-//         </div>
-//     );
-// }
-
+function InstagramProfile({ igUsername }) {
+    return (
+        <div className="instagram-profile">
+            <p>Connected to Instagram as: <strong>{igUsername}</strong></p>
+        </div>
+    );
+}
 
 function SentRoses() {
     const rosesSent = ['user_a', 'user_b', 'user_c', 'user_a', 'user_b', 'user_c'];
