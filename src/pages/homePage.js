@@ -240,14 +240,46 @@ function InstagramProfile({ igUsername }) {
 
 
 
-function SentRoses() {
-    const rosesSent = ['user_a', 'user_b', 'user_c', 'user_a', 'user_b', 'user_c'];
+function SentRoses({render, setRender}) {
+    const [error, setError] = useState('');
+    const [matches, setMatches] = useState([])
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        setLoading(true)
+        if(render) {
+            const getMatches = async () => {
+                try {
+                    const response = await fetch(`${BASE_URL}/getsentroses`, {
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error getting matches');
+                    }
+                    const data = await response.json();
+                    setMatches(data.ig_usernames)
+                } catch (err) {
+                    console.error('Err getting matches:', err);
+                    setError('Err getting matches');
+                } finally {
+                    setLoading(false);
+                }
+            };
+            getMatches();
+        }
+    }, [render]);
+
     return (
-        <div className="widget scrollable-container">
-            <div className="title">Roses Sent</div>
-            <ul>
-                {rosesSent.map(rose => <li key={rose}>{rose}</li>)}
-            </ul>
+        <div>
+            <div className="widget scrollable-container">
+                <div className="title">Matches</div>
+                {loading ? 'Loading...' :
+                    <ul>
+                        {matches.map(match => <li key={match}>{match}</li>)}
+                    </ul>
+                }
+            </div>
+            {error && <div className="error-message">Error: {error}</div>}
         </div>
     );
 }
