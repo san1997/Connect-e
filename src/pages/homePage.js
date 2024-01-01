@@ -129,27 +129,79 @@ function ConnectInstagram({ setInstaConnected }) {
     );
 }
 
-function SendRoseWidget() {
-    // Assuming there's a state or props to handle the username
+function SendRoseWidget({render ,setRender}) {
+    const [crushIg, setCrushIg] = useState('');
+    const [roseAdded, setRoseAdded] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const sendRoseHandler = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        setRoseAdded(false);
+        setError('');
+
+        try {
+                const response = await fetch(`${BASE_URL}/addrose`, {
+                    method: "POST",
+                    body: JSON.stringify({ "crush": crushIg}),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json(); // Parse the response as JSON
+                    throw new Error(errorData.message); // Extract
+                }
+                setRoseAdded(true)
+                setRender(true)
+        } catch (err) {
+            console.error('error sending rose:', err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
         <div className="send-rose-widget">
-            <input type="text" className="inputbox" placeholder="Enter a handle, send a rose 🌹" />
-            <button className="submitButton">Send Rose</button>
+            <form onSubmit={sendRoseHandler}>
+                <input
+                    type="text"
+                    className="inputbox"
+                    placeholder="Enter a handle, send a rose 🌹"
+                    value={crushIg}
+                    onChange={e => {setCrushIg(e.target.value); setRoseAdded(false); setError('')} }
+                />
+                <button
+                    className='submitButton'
+                    type='submit'
+                    disabled={loading}
+                >
+                    {loading ? 'Loading...' : 'Send Rose'}
+                </button>
+            </form>
+            {error && <div className="error-message">Error: {error}</div>}
+            {roseAdded && <div className="rose-added-message">Rose added: {crushIg}</div>}
         </div>
     );
 }
 
 function ProfilePage({ igUsername }) {
+    const [render, setRender] = useState()
     return (
         <div className="profile">
             <div className="component-spacing">
             {igUsername && <InstagramProfile igUsername={igUsername} />}
             </div>
             <div className="component-spacing">
-                <SendRoseWidget/>
+                <SendRoseWidget render = {render} setRender = {setRender}/>
             </div>
             <div className="component-spacing">
-                <StatsWidget
+                <StatsWidget render = {render} setRender = {setRender}
                     rosesSentCount={5}
                     rosesReceivedCount={4}
                     matchesCount={2}
@@ -157,8 +209,8 @@ function ProfilePage({ igUsername }) {
             </div>
             <div className="component-spacing">
                 <div className="scrollable-widgets">
-                    <Matches/>
-                    <SentRoses/>
+                    <Matches render = {render} setRender = {setRender}/>
+                    <SentRoses render = {render} setRender = {setRender}/>
                 </div>
             </div>
         </div>
@@ -200,14 +252,46 @@ function SentRoses() {
     );
 }
 
-function Matches() {
-    const matches = ['match_a', 'match_b', 'match_c', 'match_a', 'match_b', 'match_c'];
+function Matches({render ,setRender}) {
+    const [error, setError] = useState('');
+    const [matches, setMatches] = useState([])
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        setLoading(true)
+        if(render) {
+            const getMatches = async () => {
+                try {
+                    const response = await fetch(`${BASE_URL}/getmatches`, {
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error getting matches');
+                    }
+                    const data = await response.json();
+                    setMatches(data.matches)
+                } catch (err) {
+                    console.error('Err getting matches:', err);
+                    setError('Err getting matches');
+                } finally {
+                    setLoading(false);
+                }
+            };
+            getMatches();
+        }
+    }, [render]);
+
     return (
-        <div className="widget scrollable-container">
-            <div className="title">Matches</div>
-            <ul>
-                {matches.map(match => <li key={match}>{match}</li>)}
-            </ul>
+        <div>
+            <div className="widget scrollable-container">
+                <div className="title">Matches</div>
+                {loading ? 'Loading...' :
+                    <ul>
+                        {matches.map(match => <li key={match}>{match}</li>)}
+                    </ul>
+                }
+            </div>
+            {error && <div className="error-message">Error: {error}</div>}
         </div>
     );
 }

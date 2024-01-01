@@ -171,6 +171,30 @@ body {
     color: grey;
 }
 
+/* Error message styles */
+.error-message {
+    background-color: #ffcccc; /* Light pink background */
+    color: #330033; /* Deep purple text */
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    font-size: 0.7rem;
+    text-align: center;
+    margin-top: 10px; /* Add some space between the error message and the widget */
+}
+
+/* CSS for the "Rose added" message */
+.rose-added-message {
+    background-color: #ffe0f0; /* Light pink background */
+    color: #e91e63; /* Soft rose color */
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 10px; /* Add spacing from other elements */
+}
+
 /* Enhanced Media Queries for Mobile Responsiveness */
 @media screen and (max-width: 600px) {
     .instagram, .profile {
