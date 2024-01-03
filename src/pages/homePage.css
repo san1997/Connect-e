@@ -197,6 +197,35 @@ body {
     margin-top: 10px; /* Add spacing from other elements */
 }
 
+/* Base styles for the button */
+.retro-logout-button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #e91e63;
+    background-color: #ffe0f0;
+    border: none;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    font-size: 14px;
+    text-decoration: none;
+    box-shadow: 3px 3px 0 #e91e63;
+    position: relative;
+    transition: top 0.1s, left 0.1s;
+}
+
+/* Effect for 3D pressed button */
+.retro-logout-button:active {
+    top: 3px;
+    left: 3px;
+    box-shadow: none;
+}
+
+/* Add a hover effect */
+.retro-logout-button:hover {
+    background-color: #ffe0f0;
+}
+
+
 /* Enhanced Media Queries for Mobile Responsiveness */
 @media screen and (max-width: 600px) {
     .instagram, .profile {

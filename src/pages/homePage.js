@@ -4,6 +4,7 @@ import './homePage.css';
 import FontAwesome from "react-fontawesome";
 import {BASE_URL, CLIENT_ID, REDIRECT_URL} from '../constants';
 import useAuthCheck from './loginCheck';
+import {useNavigate} from "react-router-dom";
 
 
 export function HomePage() {
@@ -55,7 +56,69 @@ export function HomePage() {
 
     return (
         <div>
-            {!instaConnected ? <ConnectInstagram setInstaConnected={setInstaConnected} /> : <ProfilePage igUsername={igUsername} />}
+            <div>
+                {!instaConnected ? <ConnectInstagram setInstaConnected={setInstaConnected} /> : <ProfilePage igUsername={igUsername} />}
+                <LogoutDelete/>
+            </div>
+
+        </div>
+    );
+}
+
+function LogoutDelete() {
+    const navigate = useNavigate();
+    const [error, setError] = useState('');
+
+    const logoutHandler = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/logout`, {
+                method: "GET",
+                credentials: 'include' // Include credentials for cookies
+            });
+
+            if (!response.ok) {
+                throw new Error('Error logging out');
+            }
+            navigate("/", { replace: true });
+        } catch (err) {
+            setError('Err logging out');
+        }
+    };
+
+    const deleteHandler = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/deleteuser`, {
+                method: "GET",
+                credentials: 'include' // Include credentials for cookies
+            });
+
+            if (!response.ok) {
+                throw new Error('Error deleting user');
+            }
+            navigate("/", { replace: true });
+        } catch (err) {
+            setError('Error deleting user');
+        }
+    };
+
+    return (
+        <div className="">
+                <button
+                    className='retro-logout-button'
+                    type='submit'
+                    onClick={logoutHandler}
+                >
+                    Logout
+                </button>
+            <button
+                className='retro-logout-button'
+                type='submit'
+                onClick={deleteHandler}
+            >
+                Delete Account
+            </button>
+
+            {error && <div className="error-message">Error: {error}</div>}
         </div>
     );
 }
