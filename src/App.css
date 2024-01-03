@@ -2,22 +2,26 @@ body, .App {
   font-family: 'Press Start 2P', cursive; /* Pixelated font */
   background-color: #ffe6f0; /* Soft pink background */
   color: #330033; /* Deep purple for contrast */
-}
-
-.App-logo {
-  height: 20vmin;
-  image-rendering: pixelated; /* Ensure the logo is pixelated */
+  margin: 0; /* Ensure there are no default margins */
+  padding: 0; /* Ensure there are no default paddings */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  min-height: 100vh; /* Ensure the body takes at least 100% of the viewport height */
 }
 
 .App-header {
   background-color: #ff99cc; /* Soft romantic pink */
-  min-height: 100vh;
+  position: fixed; /* Fixed position */
+  top: 0; /* Align to the top of the viewport */
+  left: 0; /* Align to the left of the viewport */
+  width: 100%; /* Full width of the container */
+  height: 100vh; /* Full height of the viewport */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
   color: #330033; /* Deep purple for text */
+  z-index: 1; /* Lower z-index than main container */
 }
 
 .top-header {
@@ -25,40 +29,27 @@ body, .App {
   top: 0;
   padding: 1em 0;
   font-size: 1.5rem;
-  width: 100%;
+  width: 100%; /* Full width of the container */
   background-color: #ff99cc;
   color: #330033;
   border-bottom: 4px solid #ff66a3; /* Pixel-like border */
+  z-index: 2; /* Higher than .App-header but lower than .main-container */
 }
 
 .main-container {
-  position: relative;
-  padding: 1em;
+  position: absolute; /* Changed to absolute positioning */
+  top: 50%; /* Position the top edge of the element at the center of the container */
+  left: 50%; /* Position the left edge of the element at the center of the container */
+  transform: translate(-50%, -50%); /* Offset the element to the actual center */
+  box-sizing: border-box; /* Include padding in the width and height calculation */
+  z-index: 3; /* Highest z-index to be on top */
+  /*background-color: rgba(255, 255, 255, 0.9); !* Semi-transparent white *!*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Define a max-width and max-height if necessary, or use width and height */
 }
-
-.App-link {
-  color: #ff66a3;
-  text-decoration: none;
-  border-bottom: 2px dotted #ff99cc; /* Dotted underline for links */
-}
-
-
-.button:hover, .inputBox.submitButton:hover, .sendRoseButton:hover {
-  background-color: #ff99cc;
-  border-color: #ff66a3;
-}
-
-/* Animation for App logo */
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ... existing styles ... */
 
 /* Media Query for Mobile Devices */
 @media screen and (max-width: 768px) {
@@ -67,26 +58,22 @@ body, .App {
     font-size: 1rem; /* Smaller font size for headers */
   }
 
-  .App-logo {
-    height: 15vmin;
-  }
-
-  .button, .inputBox.submitButton, .sendRoseButton {
-    padding: 8px 15px;
-    font-size: 0.75rem; /* Smaller font size for buttons */
-  }
-
   .main-container {
-    top: 3.5rem; /* Reduced top position for smaller header */
-    padding: 0.5em; /* Smaller padding for main container */
+    width: calc(100% ); /* Subtract desired space from the total width */
+    height: auto; /* Height can be auto to contain the content */
+    margin: 0px; /* This will add space around the container */
+    max-width: 768px; /* You can set a max-width if required */
+    padding: 1em; /* Add padding inside the container if needed */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Keep centered after adjusting width */
   }
 
   body, .App {
-    font-size: 0.8rem; /* Smaller base font size for better readability */
+    font-size: 1rem; /* Smaller base font size for better readability */
   }
 }
-
-/*!* ... existing styles ... *!*/
 
 /* Import the 'Press Start 2P' font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');

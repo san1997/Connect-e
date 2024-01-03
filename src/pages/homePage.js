@@ -104,10 +104,6 @@ function ConnectInstagram({ setInstaConnected }) {
         setError('Connecting Instagram failed.');
     };
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
     return (
         <div className="instagram">
             <p>Please connect Instagram</p>
@@ -118,13 +114,8 @@ function ConnectInstagram({ setInstaConnected }) {
                 onFailure={handleIgFailureResp}
                 redirectUri={REDIRECT_URL}
                 scope="user_profile"
-                //useRedirect={true}
             />
-            {/*<button*/}
-            {/*    className='inputbox submitButton'*/}
-            {/*    onClick={handleIgSuccessResp}*/}
-            {/*>*/}
-            {/*</button>*/}
+            {error && <div className="error-message">Error: {error}</div>}
         </div>
     );
 }
@@ -259,9 +250,9 @@ function InstagramProfile({ igUsername }) {
 
     return (
         <div className="instagram-profile">
-            {/*<div>*/}
-            {/*    <span className="instagram-icon">📸</span>*/}
-            {/*</div>*/}
+            <div>
+                <span className="instagram-icon">📸</span>
+            </div>
             <div>
                 <strong className="ig-username">@{igUsername}</strong>
             </div>
@@ -273,20 +264,23 @@ function InstagramProfile({ igUsername }) {
 }
 
 
-function SentRoses({userInfo, render, setRender}) {
+function SentRoses({userInfo}) {
     const sentRoses = userInfo.sentRoses
     return (
         <div>
             <div className="widget scrollable-container">
                 <div className="title">Sent Roses</div>
+                {sentRoses && sentRoses.length > 0 ? (
                     <ul>
-                        {sentRoses?.map(match => (
+                        {sentRoses.map(match => (
                             <li key={match}>
-                                <a href={`https://instagram.com/${match}`} target="_blank" >{match}</a>
+                                <a href={`https://instagram.com/${match}`} target="_blank" rel="noreferrer">{match}</a>
                             </li>
                         ))}
                     </ul>
-
+                ) : (
+                    <p className="inputbox rest-text">No Rose sent yet, give it a try!</p>
+                )}
             </div>
         </div>
     );
@@ -298,14 +292,17 @@ function Matches({userInfo}) {
         <div>
             <div className="widget scrollable-container">
                 <div className="title">Matches</div>
-                    <ul>
-                        {matches?.map(match => (
-                            <li key={match}>
-                                <a href={`https://instagram.com/${match}`} target="_blank" >{match}</a>
-                            </li>
-                        ))}
-
-                    </ul>
+                    {matches && matches.length > 0 ? (
+                        <ul>
+                            {matches.map(match => (
+                                <li key={match}>
+                                    <a href={`https://instagram.com/${match}`} target="_blank" rel="noreferrer">{match}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="inputbox rest-text">No matches yet. Stay tuned!</p>
+                    )}
             </div>
         </div>
     );
@@ -323,7 +320,5 @@ function StatsWidget({ userInfo }) {
         </div>
     );
 }
-
-
 
 export default ProfilePage;

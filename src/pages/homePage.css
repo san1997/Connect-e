@@ -136,7 +136,7 @@ body {
 
 .rest-text {
     font-weight: lighter;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     color: grey; /* Grey color for the rest of the text */
 }
 
@@ -158,7 +158,7 @@ body {
     margin: 10px 0;
     font-family: 'Press Start 2P', cursive; /* Pixelated font */
     font-size: 1rem;
-    color: #050505;
+    color: #e91e63;
 }
 
 .icon {
@@ -203,20 +203,25 @@ body {
         margin: 10px auto;
         padding: 10px;
         max-width: 80%;
-        font-size: 0.7rem; /* Adjusted font size for better readability */
+        font-size: 1rem; /* Adjusted font size for better readability */
     }
 
     .title {
         font-size: 1.0rem;
     }
 
-    .inputbox, .submitButton {
+    .inputbox {
         font-size: 0.5rem; /* Adjusted font size for better readability */
         padding: 8px; /* Slightly reduced padding */
     }
 
-    .widget {
+    .submitButton {
         font-size: 0.7rem; /* Adjusted font size for better readability */
+        padding: 8px; /* Slightly reduced padding */
+    }
+
+    .widget {
+        font-size: 0.5rem; /* Adjusted font size for better readability */
         padding: 10px;
         margin-bottom: 20px; /* Adjusted for spacing in mobile view */
     }
@@ -231,6 +236,13 @@ body {
     .rest-text{
         font-size: 0.5rem;
     }
+    .stat, .icon {
+        font-size: 0.9rem;
+    }
+}
+
+a {
+    color: #ff66a3; /* Set your desired color */
 }
 
 /* Importing pixelated font */
