@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react";
-import { InstagramLogin } from '@amraneze/react-instagram-login';
 import './homePage.css';
-import FontAwesome from "react-fontawesome";
-import {BASE_URL, CLIENT_ID, REDIRECT_URL} from '../constants';
+import {BASE_URL} from '../constants';
 import useAuthCheck from './loginCheck';
 import {useNavigate} from "react-router-dom";
 
+import React from 'react';
 
 export function HomePage() {
     useAuthCheck();
 
-    const [instaConnected, setInstaConnected] = useState(false);
     const [igUsername, setIgUsername] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
-    useEffect(() => {
-        fetchUserData();
-    }, [instaConnected]);
 
     const fetchUserData = async () => {
         try {
@@ -33,11 +27,8 @@ export function HomePage() {
             }
 
             console.log('User data:', data);
-            const igUsername = data.ig_username
-            if (igUsername) {
-                setInstaConnected(true);
-                setIgUsername(igUsername); // Save the Instagram username in state
-            }
+            const igUsername = data.username
+            setIgUsername(igUsername); // Save the Instagram username in state
         } catch (err) {
             console.error('Error:', err);
             setError(err.message);
@@ -46,21 +37,19 @@ export function HomePage() {
         }
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    useEffect(() => {
+        // Your function that should run only once
+        fetchUserData();
+    }, []);
 
     return (
         <div>
             <div>
-                {!instaConnected ? <ConnectInstagram setInstaConnected={setInstaConnected} /> : <ProfilePage igUsername={igUsername} />}
+                <ProfilePage igUsername={igUsername} />
                 <LogoutDelete/>
             </div>
-
+            {error && <div className="error-message">Error: {error}</div>}
+            {loading && <div>Loading...</div>}
         </div>
     );
 }
@@ -118,66 +107,6 @@ function LogoutDelete() {
                 Delete Account
             </button>
 
-            {error && <div className="error-message">Error: {error}</div>}
-        </div>
-    );
-}
-
-function ConnectInstagram({ setInstaConnected }) {
-    const [authCode, setAuthCode] = useState('');
-    const [error, setError] = useState('');
-
-    useEffect(() => {
-        if (authCode) {
-            oauthCallback();
-        }
-    }, [authCode]);
-
-    const oauthCallback = async () => {
-        try {
-            const response = await fetch(`${BASE_URL}/oauthcallback`, {
-                method: "POST",
-                body: JSON.stringify({ "code":authCode }),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            });
-
-            if (!response.ok) {
-                throw new Error('Connecting Instagram failed');
-            }
-
-            // rerender HomePage about successful Instagram connection
-            setInstaConnected(true);
-        } catch (err) {
-            console.error('Connecting Instagram failed:', err);
-            setError('Connecting Instagram failed.');
-        }
-    };
-
-    const handleIgSuccessResp = (response) => {
-        console.log("Ig resp authcode:", response);
-        setAuthCode(response);
-    };
-
-    const handleIgFailureResp = (response) => {
-        console.error("Instagram connection failed:", response);
-        setError('Connecting Instagram failed.');
-    };
-
-    return (
-        <div className="instagram">
-            <p>Please connect Instagram</p>
-            <InstagramLogin
-                clientId={CLIENT_ID}
-                buttonText="Connect your Instagram"
-                onSuccess={handleIgSuccessResp}
-                onFailure={handleIgFailureResp}
-                redirectUri={REDIRECT_URL}
-                scope="user_profile"
-            />
             {error && <div className="error-message">Error: {error}</div>}
         </div>
     );

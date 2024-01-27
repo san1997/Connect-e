@@ -8,7 +8,7 @@ function App() {
 
   return <div className="App">
       <header className="App-header">
-        <div className='top-header'>Connect-e-dil</div>
+        <div className='top-header'>Rose4You 🌹</div>
         <div className='main-container'>
           <Routes>
             <Route index element={<LoginPage/>}/>
